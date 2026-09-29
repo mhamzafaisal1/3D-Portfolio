@@ -2,6 +2,7 @@
 // Draws a phosphor-style terminal into an offscreen 2D canvas. The 3D monitor
 // uses that canvas as its screen texture; `onChange` fires whenever it redraws.
 import { profile, projects, experiences, skillGroups, research } from "../../constants";
+import { revealed } from "../../reveal";
 
 export const W = 1024;
 export const H = 768;
@@ -310,7 +311,8 @@ export function createTerminal({ onChange, scrollTo, openUrl, onTranscript }) {
   queue = bootQueue;
   bootQueue = null;
   draw();
-  later(pump, 400);
+  // start typing the boot log once the page has been revealed
+  const offReveal = revealed.on(() => later(pump, 450));
 
   const self = {
     canvas,
@@ -368,6 +370,7 @@ export function createTerminal({ onChange, scrollTo, openUrl, onTranscript }) {
       exec(cmd);
     },
     dispose() {
+      offReveal();
       clearInterval(blinkId);
       timers.forEach(clearTimeout);
     },

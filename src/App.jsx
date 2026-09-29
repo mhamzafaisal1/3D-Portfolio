@@ -8,9 +8,11 @@ import TechStack from "./sections/TechStack";
 import Research from "./sections/Research";
 import Contact from "./sections/Contact";
 import Footer from "./sections/Footer";
+import Loader from "./components/Loader";
 
 const App = () => (
   <>
+    <Loader />
     <Navbar />
     <Hero />
     <LogoShowcase />

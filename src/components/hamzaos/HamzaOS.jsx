@@ -9,6 +9,7 @@ import * as THREE from "three";
 import { createTerminal, COMMANDS } from "./terminal";
 import Safe3D from "../Safe3D";
 import useWebGLRecovery from "../useWebGLRecovery";
+import { heroReady, revealed } from "../../reveal";
 import { createCrtMaterial } from "./crtMaterial";
 
 const CASE = "#cfc8b8";
@@ -67,7 +68,9 @@ function Monitor({ term, onScreenClick }) {
 
   useFrame((state, dt) => {
     material.uniforms.uTime.value = state.clock.elapsedTime;
-    material.uniforms.uPower.value = Math.min(1, material.uniforms.uPower.value + dt * 1.6);
+    heroReady.fire(); // first frame rendered: the loader can go
+    // CRT power-on waits until the loader has faded
+    if (revealed.done) material.uniforms.uPower.value = Math.min(1, material.uniforms.uPower.value + dt * 1.6);
     // gentle idle sway + lean toward the pointer
     const g = group.current;
     const tx = state.pointer.y * -0.05 + Math.sin(state.clock.elapsedTime * 0.6) * 0.01;
@@ -124,6 +127,7 @@ function Monitor({ term, onScreenClick }) {
 // Used if the GPU keeps dropping the 3D context or WebGL isn't available.
 function FlatScreen({ term }) {
   const holder = useRef(null);
+  useEffect(() => heroReady.fire(), []);
   useEffect(() => {
     const el = holder.current;
     const c = term.canvas;

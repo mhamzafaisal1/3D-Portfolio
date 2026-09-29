@@ -6,14 +6,15 @@ import Button from "../components/Button";
 import { words, profile } from "../constants";
 import { FileIcon } from "../components/ui/Icons";
 import Safe3D from "../components/Safe3D";
+import { revealed } from "../reveal";
 import HamzaOS from "../components/hamzaos/HamzaOS";
 
 const Hero = () => {
+  // headline slides in once the loader has faded
   useGSAP(() => {
-    gsap.fromTo(
-      ".hero-text h1",
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power2.inOut" }
+    gsap.set(".hero-text h1", { y: 50, opacity: 0 });
+    return revealed.on(() =>
+      gsap.to(".hero-text h1", { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power2.inOut" })
     );
   });
 

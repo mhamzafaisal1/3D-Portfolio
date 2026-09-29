@@ -16,8 +16,21 @@
     />
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#000000" />
+    <style>
+      html,body{background:#000;margin:0}
+      #boot-splash{position:fixed;inset:0;z-index:300;background:#000;display:flex;align-items:center;justify-content:center;font-family:ui-monospace,Menlo,Consolas,monospace}
+      #boot-splash .w{width:min(320px,70vw)}
+      #boot-splash .t{color:#8df0b4;font-size:18px;letter-spacing:.2em;text-shadow:0 0 12px rgba(28,236,132,.6);margin:0}
+      #boot-splash .b{margin-top:16px;height:3px;background:#0c2a1c;border-radius:2px;overflow:hidden}
+      #boot-splash .b i{display:block;height:100%;width:6%;background:#1cec84;box-shadow:0 0 12px #1cec84}
+      #boot-splash .s{margin-top:12px;font-size:12px;color:#4f9a76}
+    </style>
   </head>
   <body>
+    <!-- painted instantly, before any JS; the React loader takes over from here -->
+    <div id="boot-splash" aria-hidden="true">
+      <div class="w"><p class="t">HAMZA.OS</p><div class="b"><i></i></div><p class="s">booting</p></div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

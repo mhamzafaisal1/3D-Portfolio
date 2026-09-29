@@ -6,7 +6,7 @@ Built with React 19, Vite, Tailwind CSS 4, Three.js (React Three Fiber), GSAP an
 Started from the JS Mastery 3D portfolio template; all content, the Selected Work bento grid,
 the IoT architecture diagram (Magic UI Animated Beam) and the experience timeline (Aceternity Timeline)
 are custom.
-The hero background is ThreeUI's Warp Field (MIT, Meng To — github.com/MengTo/threeui).
+The hero's HAMZA.OS computer is custom three.js; its CRT screen shader is adapted from ThreeUI (MIT, Meng To, github.com/MengTo/threeui).
 
 ## Run it
 

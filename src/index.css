@@ -81,11 +81,11 @@ section {
   }
 
   .hero-layout {
-    @apply relative z-10 xl:mt-0 mt-24 md:h-dvh h-[85vh] min-h-[640px] flex xl:items-center items-start justify-center;
+    @apply relative z-10 xl:mt-0 mt-28 xl:h-dvh xl:min-h-[720px] flex xl:flex-row flex-col xl:items-center items-start justify-center gap-10 xl:gap-4;
   }
 
   .hero-text {
-    @apply flex flex-col justify-center md:text-[60px] text-[30px] font-semibold relative z-10 pointer-events-none;
+    @apply flex flex-col justify-center md:text-[56px] xl:text-[50px] 2xl:text-[60px] text-[30px] font-semibold relative z-10 pointer-events-none;
     img {
       @apply size-8 md:size-10 object-contain;
     }

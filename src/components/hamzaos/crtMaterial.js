@@ -30,7 +30,7 @@ const fragmentShader = /* glsl */ `
   vec2 curve(vec2 uv){
     uv = uv*2.0-1.0;
     vec2 o = uv.yx*uv.yx;
-    uv += uv * o * vec2(0.05, 0.07);
+    uv += uv * o * vec2(0.065, 0.09);
     return uv*0.5+0.5;
   }
 
@@ -45,7 +45,7 @@ const fragmentShader = /* glsl */ `
 
     vec2 dir = uv - 0.5;
     float d2 = dot(dir, dir);
-    vec2 ao = dir * (0.0004 + 0.003*d2);
+    vec2 ao = dir * (0.0007 + 0.005*d2);
     vec3 col;
     col.r = texture2D(uTex, uv + ao).r;
     col.g = texture2D(uTex, uv).g;
@@ -54,22 +54,22 @@ const fragmentShader = /* glsl */ `
     float s = 0.0035;
     vec3 wide = texture2D(uTex, uv + vec2( s, 0.0)).rgb + texture2D(uTex, uv + vec2(-s, 0.0)).rgb
               + texture2D(uTex, uv + vec2(0.0,  s)).rgb + texture2D(uTex, uv + vec2(0.0, -s)).rgb;
-    col += wide * 0.02;
+    col += wide * 0.025;
 
     float sl = sin(uv.y * 3.14159265 * 340.0 + t * 4.0);
-    col *= mix(0.86, 1.0, sl*sl);
+    col *= mix(0.79, 1.0, sl*sl);
 
     float gx = vUv.x * uRes.x * 6.2831853 / 3.2;
-    vec3 grille = 0.9 + 0.1 * cos(gx + vec3(0.0, 2.094, 4.188));
+    vec3 grille = 0.8 + 0.2 * cos(gx + vec3(0.0, 2.094, 4.188));
     col *= grille;
-    col *= 1.18;
+    col *= 1.24;
 
     float bar = fract(uv.y*0.5 - t*0.07);
     bar = smoothstep(0.0,0.05,bar) * smoothstep(0.18,0.05,bar);
     col += bar * 0.04;
 
     float vig = smoothstep(0.98, 0.30, length((uv-0.5)*vec2(1.05,1.0)));
-    col *= mix(0.6, 1.0, vig);
+    col *= mix(0.52, 1.0, vig);
     col *= 1.0 - 0.025*sin(t*8.0);
     col += (hash(vUv + fract(t*0.37)) - 0.5) * 0.02;
 

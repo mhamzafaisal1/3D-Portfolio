@@ -22,7 +22,6 @@ const Hero = () => {
       {/* ambient backdrop: dot grid + soft phosphor glow behind the monitor */}
       <div className="absolute inset-x-0 top-0 h-[110vh] pointer-events-none" aria-hidden>
         <div className="absolute inset-0 bg-[radial-gradient(circle,#1c1c21_1px,transparent_1px)] [background-size:26px_26px] [mask-image:radial-gradient(ellipse_at_70%_45%,black_20%,transparent_70%)]" />
-        <div className="absolute right-[-10%] top-[10%] size-[60vw] max-w-[900px] max-h-[900px] rounded-full bg-[radial-gradient(circle,#1cec8422_0%,#62e0ff11_40%,transparent_70%)]" />
       </div>
 
       <div className="hero-layout">

@@ -3,7 +3,7 @@
 // live 2D-canvas terminal (terminal.js) rendered through a CRT shader.
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { ContactShadows, Environment, PresentationControls, RoundedBox } from "@react-three/drei";
+import { ContactShadows, Environment, Grid, MeshReflectorMaterial, PresentationControls, RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
 
 import { createTerminal, COMMANDS } from "./terminal";
@@ -46,6 +46,7 @@ function Keyboard() {
 function Monitor({ term, onScreenClick }) {
   const group = useRef();
   const led = useRef();
+  const glow = useRef();
   const texture = useMemo(() => {
     const t = new THREE.CanvasTexture(term.canvas);
     t.colorSpace = THREE.SRGBColorSpace;
@@ -74,6 +75,11 @@ function Monitor({ term, onScreenClick }) {
     g.rotation.x += (tx - g.rotation.x) * 0.05;
     g.rotation.y += (ty - g.rotation.y) * 0.05;
     if (led.current) led.current.emissiveIntensity = 2 + Math.sin(state.clock.elapsedTime * 3) * 0.6;
+    // screen light brightens while the terminal is typing, settles when idle
+    if (glow.current) {
+      const target = term.busy ? 11 + Math.sin(state.clock.elapsedTime * 18) * 1.5 : 6;
+      glow.current.intensity += (target - glow.current.intensity) * 0.08;
+    }
   });
 
   return (
@@ -109,7 +115,7 @@ function Monitor({ term, onScreenClick }) {
       </mesh>
       <Keyboard />
       {/* screen glow spilling onto the keyboard */}
-      <pointLight position={[0, 0, 2.2]} color="#39f59a" intensity={6} distance={5} />
+      <pointLight ref={glow} position={[0, 0, 2.2]} color="#39f59a" intensity={6} distance={7} />
     </group>
   );
 }
@@ -187,7 +193,18 @@ export default function HamzaOS() {
 
   return (
     <div ref={wrapRef} className="relative w-full h-full flex flex-col">
-      <div className="relative flex-1 min-h-[340px] cursor-text" onClick={focus}>
+      <div
+        className="relative flex-1 min-h-[340px] cursor-text"
+        onClick={focus}
+        style={{
+          maskImage:
+            "linear-gradient(to bottom, black 72%, transparent 100%), linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
+          maskComposite: "intersect",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 72%, transparent 100%), linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%)",
+          WebkitMaskComposite: "source-in",
+        }}
+      >
         {term && gl.failed && <FlatScreen term={term} />}
         {term && !gl.failed && (
           <Safe3D fallback={<FlatScreen term={term} />}>
@@ -216,16 +233,48 @@ export default function HamzaOS() {
                 <Monitor term={term} onScreenClick={focus} />
               </group>
             </PresentationControls>
-            <ContactShadows position={[0, -1.65, 0]} opacity={0.55} scale={12} blur={2.6} far={4} />
+            {/* ground: glossy dark desk reflecting the screen, retro grid fading into fog */}
+            <fog attach="fog" args={["#000000", 11, 24]} />
+            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.63, 0]}>
+              <planeGeometry args={[60, 60]} />
+              <MeshReflectorMaterial
+                resolution={512}
+                blur={[300, 80]}
+                mixBlur={1}
+                mixStrength={1.6}
+                roughness={0.9}
+                depthScale={1}
+                minDepthThreshold={0.4}
+                maxDepthThreshold={1.4}
+                color="#000000"
+                metalness={0.3}
+                envMapIntensity={0}
+              />
+            </mesh>
+            <Grid
+              position={[0, -1.62, 0]}
+              infiniteGrid
+              cellSize={0.6}
+              cellThickness={0.5}
+              cellColor="#103a26"
+              sectionSize={3}
+              sectionThickness={0.9}
+              sectionColor="#1cc873"
+              fadeDistance={26}
+              fadeStrength={2.2}
+            />
+            <ContactShadows position={[0, -1.615, 0]} opacity={0.7} scale={12} blur={2.4} far={3} />
           </Canvas>
           </Safe3D>
         )}
-        {!focused && (
-          <p className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 text-xs text-blue-50/80 whitespace-nowrap">
-            {gl.failed ? "click the screen and type" : "click the screen and type, or drag to rotate"}
-          </p>
-        )}
       </div>
+
+      <p
+        className={`text-center text-xs text-blue-50/80 transition-opacity ${focused ? "opacity-0" : "opacity-100"}`}
+        aria-hidden
+      >
+        {gl.failed ? "click the screen and type" : "click the screen and type, or drag to rotate"}
+      </p>
 
       {/* real input so desktop and mobile keyboards both work */}
       <input

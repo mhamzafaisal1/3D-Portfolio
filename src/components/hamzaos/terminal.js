@@ -32,18 +32,19 @@ const row = (label, status, width = 33, statusColor = "a") => [
 
 const BOOT = [
   [s("HAMZA.OS v4.0", "h"), s("       Chicago, IL", "d")],
-  [s("full stack engineer · real-time & IoT", "d")],
+  [s("full stack software engineer", "d")],
   [],
-  row("Booting TypeScript runtime", "OK"),
-  row("Node.js + Express services", "ONLINE"),
-  row("iot0  ingest 1M+ points/day", "READY"),
-  row("rt0   websockets <100ms", "READY"),
-  row("aws0  docker · nginx · ci/cd", "LINK"),
-  row("perf  api 9s -> 1.5s", "READY"),
-  row("EnviroSense paper (Springer)", "OK"),
+  row("Compiling TypeScript", "OK"),
+  row("Starting React + Next.js UI", "OK"),
+  row("Starting Node.js APIs", "ONLINE"),
+  row("Connecting PostgreSQL + MongoDB", "OK"),
+  row("Real-time sync (WebSockets)", "READY"),
+  row("Running tests (Jest, Cypress)", "PASSED"),
+  row("Deploying to AWS via Docker", "LIVE"),
   [],
+  [s("4+ yrs · teams in US, UK, UAE, DE", "d")],
   [s("type "), s("help", "h"), s(" or tap a command below")],
-]
+];
 
 // Wrap a plain string to the terminal width.
 const wrap = (text, color = "p", indent = "", hang = indent) => {
@@ -321,6 +322,9 @@ export function createTerminal({ onChange, scrollTo, openUrl, onTranscript }) {
     },
     get booting() {
       return booting;
+    },
+    get busy() {
+      return booting || !!typing || queue.length > 0;
     },
     get ready() {
       return !booting && !typing && queue.length === 0;

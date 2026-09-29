@@ -6,32 +6,28 @@ import Button from "../components/Button";
 import { words, profile } from "../constants";
 import { FileIcon } from "../components/ui/Icons";
 import Safe3D from "../components/Safe3D";
-import WarpField from "../components/warp/WarpField";
+import { revealed } from "../reveal";
+import HamzaOS from "../components/hamzaos/HamzaOS";
 
 const Hero = () => {
+  // headline slides in once the loader has faded
   useGSAP(() => {
-    gsap.fromTo(
-      ".hero-text h1",
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power2.inOut" }
+    gsap.set(".hero-text h1", { y: 50, opacity: 0 });
+    return revealed.on(() =>
+      gsap.to(".hero-text h1", { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power2.inOut" })
     );
   });
 
   return (
     <section id="hero" className="relative overflow-hidden">
-      {/* Full-bleed animated background (ThreeUI Warp Field, "letters" variant) */}
-      <div className="absolute inset-x-0 top-0 h-dvh min-h-[640px]" aria-hidden>
-        <Safe3D>
-          <WarpField variant="letters" speed={12} hue={40} saturation={1.1} brightness={0.9} />
-        </Safe3D>
-        {/* legibility: darken behind the text, fade into the page below */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/45 to-black/10" />
-        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-b from-transparent to-black" />
+      {/* ambient backdrop: dot grid + soft phosphor glow behind the monitor */}
+      <div className="absolute inset-x-0 top-0 h-[110vh] pointer-events-none" aria-hidden>
+        <div className="absolute inset-0 bg-[radial-gradient(circle,#1c1c21_1px,transparent_1px)] [background-size:26px_26px] [mask-image:radial-gradient(ellipse_at_70%_45%,black_20%,transparent_70%)]" />
       </div>
 
       <div className="hero-layout">
         {/* LEFT: Hero Content */}
-        <header className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
+        <header className="flex flex-col justify-center w-full xl:w-[44%] md:px-20 xl:pr-0 px-5">
           <div className="flex flex-col gap-7">
             <div className="hero-text">
               <h1>
@@ -82,6 +78,13 @@ const Hero = () => {
             </div>
           </div>
         </header>
+
+        {/* RIGHT: HAMZA.OS, an interactive three.js computer */}
+        <div className="w-full xl:w-[56%] h-[520px] md:h-[680px] xl:h-[min(74vh,780px)] xl:min-h-[600px] xl:mt-16 px-2 md:px-8 xl:px-0 xl:pr-6">
+          <Safe3D>
+            <HamzaOS />
+          </Safe3D>
+        </div>
       </div>
 
       <AnimatedCounter />

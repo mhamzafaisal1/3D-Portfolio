@@ -95,9 +95,12 @@ const projects = {
   envirosense: {
     eyebrow: "Published · Springer 2025",
     title: "EnviroSense",
-    desc: "AI-driven microclimate control for sustainable agriculture using edge computing. Cross-platform app for real-time crop monitoring with geospatial views and predictive dashboards.",
-    stats: [{ value: "30%", label: "better yield predictions" }],
-    stack: ["React Native", "Expo", "GraphQL", "MongoDB", "Mapbox", "Skia"],
+    desc: "AI crop recommendations from soil and climate data. React Native field-monitoring app, a FastAPI model service, and a live in-browser demo.",
+    stats: [
+      { value: "99.5%", label: "hold-out accuracy" },
+      { value: "22", label: "crops" },
+    ],
+    stack: ["React Native", "Expo", "Firebase", "Python", "scikit-learn", "FastAPI", "Next.js"],
     link: "https://link.springer.com/chapter/10.1007/978-3-031-92608-2_19",
     demo: "https://envirosense-site.vercel.app/#app",
   },

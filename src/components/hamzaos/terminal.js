@@ -109,7 +109,7 @@ function run(input, api) {
         [s("> " + projects.iot.title, "h")],
         ...wrap("1M+ datapoints/day, diagnostics 70% faster, processing 4x via microservices.", "p", "  "),
         [s("> " + projects.envirosense.title, "h"), s("  (Springer 2025)", "d")],
-        ...wrap("AI microclimate control w/ edge computing; React Native app, 30% better yield predictions.", "p", "  "),
+        ...wrap("AI crop recommendations (99.5% hold-out accuracy, 22 crops); React Native app + FastAPI model. try: demo", "p", "  "),
         [s("> " + projects.realtime.title, "h")],
         ...wrap("WebSockets + GraphQL trading UI, Socket.io signaling for WebRTC calls.", "p", "  "),
         [s("tip: ", "d"), s("open work", "c"), s(" to see them in detail", "d")],

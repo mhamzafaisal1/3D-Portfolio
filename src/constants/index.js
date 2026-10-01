@@ -99,6 +99,7 @@ const projects = {
     stats: [{ value: "30%", label: "better yield predictions" }],
     stack: ["React Native", "Expo", "GraphQL", "MongoDB", "Mapbox", "Skia"],
     link: "https://link.springer.com/chapter/10.1007/978-3-031-92608-2_19",
+    demo: "https://envirosense-site.vercel.app/#app",
   },
   realtime: {
     eyebrow: "MarketWise",
@@ -179,6 +180,7 @@ const research = {
   venue:
     "Lecture Notes in Networks and Systems (Springer) · SAI Computing Conference 2025, London",
   link: "https://link.springer.com/chapter/10.1007/978-3-031-92608-2_19",
+  site: "https://envirosense-site.vercel.app",
   role: "Frontend Engineer & Researcher · Valparaiso University · Aug – Dec 2024",
 };
 

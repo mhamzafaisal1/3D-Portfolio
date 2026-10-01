@@ -65,7 +65,7 @@ const wrap = (text, color = "p", indent = "", hang = indent) => {
 
 const SECTIONS = ["work", "experience", "skills", "research", "contact"];
 
-export const COMMANDS = ["help", "whoami", "projects", "experience", "stack", "contact", "resume", "clear"];
+export const COMMANDS = ["help", "whoami", "projects", "demo", "paper", "experience", "stack", "contact", "resume", "clear"];
 
 function run(input, api) {
   const [cmd, ...args] = input.trim().split(/\s+/);
@@ -84,6 +84,8 @@ function run(input, api) {
         [s("  stack       ", "c"), s("tools I use")],
         [s("  contact     ", "c"), s("how to reach me")],
         [s("  resume      ", "c"), s("open my resume (PDF)")],
+        [s("  demo        ", "c"), s("try the EnviroSense app live")],
+        [s("  paper       ", "c"), s("read the EnviroSense paper (Springer)")],
         [s("  open <sec>  ", "c"), s("jump to a section:")],
         [s("              work experience skills", "d")],
         [s("              research contact", "d")],
@@ -142,6 +144,9 @@ function run(input, api) {
       api.scrollTo(target === "skills" ? "skills" : target);
       return [[s(`jumping to #${target} ...`, "p")]];
     }
+    case "demo":
+      api.openUrl(projects.envirosense.demo);
+      return [[s("opening the EnviroSense live demo ...", "p"), s(" OK", "a")]];
     case "paper":
       api.openUrl(research.link);
       return [[s("opening the EnviroSense paper ...", "p")]];

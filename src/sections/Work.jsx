@@ -93,14 +93,24 @@ const Work = () => {
             <p className="text-white-50">{envirosense.desc}</p>
             <Stats stats={envirosense.stats} />
             <Stack items={envirosense.stack} />
-            <a
-              href={envirosense.link}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-2 inline-flex items-center gap-1.5 text-white font-semibold hover:text-[#62e0ff] transition-colors w-fit"
-            >
-              Read the paper <ArrowUpRightIcon className="size-4" />
-            </a>
+            <div className="mt-2 flex flex-wrap items-center gap-x-6 gap-y-2">
+              <a
+                href={envirosense.demo}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full bg-white text-black font-semibold px-4 py-2 hover:bg-[#62e0ff] transition-colors w-fit"
+              >
+                Try the live demo <ArrowUpRightIcon className="size-4" />
+              </a>
+              <a
+                href={envirosense.link}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 text-white font-semibold hover:text-[#62e0ff] transition-colors w-fit"
+              >
+                Read the paper <ArrowUpRightIcon className="size-4" />
+              </a>
+            </div>
           </BentoCard>
 
           {/* Realtime + WebRTC */}
